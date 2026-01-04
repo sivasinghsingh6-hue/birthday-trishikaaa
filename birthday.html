@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Trishika! 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  padding:0;
+  font-family:'Poppins',sans-serif;
+  overflow:hidden;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff758c,#ffc371);
+}
+
+/* CARD */
+.card{
+  background:white;
+  padding:40px;
+  border-radius:25px;
+  text-align:center;
+  width:90%;
+  max-width:500px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  position:relative;
+  z-index:2;
+}
+
+/* PHOTO */
+.photo{
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  object-fit:cover;
+  border:5px solid #ff4d6d;
+  display:none;
+  margin:0 auto 20px;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,77,109,.7)}
+  70%{box-shadow:0 0 0 25px rgba(255,77,109,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,77,109,0)}
+}
+
+h1{
+  font-family:'Dancing Script',cursive;
+  color:#ff4d6d;
+  font-size:3rem;
+  margin:10px 0;
+  opacity:0;
+  transform:scale(0);
+  transition:all 1s ease;
+}
+
+/* MESSAGE */
+.msg{
+  font-size:1.1rem;
+  min-height:60px;
+  margin:20px 0;
+  opacity:0;
+  transition:opacity 1s;
+}
+
+/* BUTTON */
+button{
+  background:#ff4d6d;
+  color:white;
+  border:none;
+  padding:14px 30px;
+  border-radius:30px;
+  font-size:1rem;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(255,77,109,.4);
+  transition:.3s;
+}
+button:hover{
+  transform:translateY(-3px);
+  background:#ff1a50;
+}
+
+/* SIGNATURE */
+.signature{
+  margin-top:15px;
+  font-style:italic;
+  color:#666;
+  display:none;
+}
+
+/* HEARTS */
+.heart{
+  position:absolute;
+  font-size:20px;
+  animation:float 6s linear infinite;
+  opacity:.7;
+}
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+  50%{opacity:1}
+  100%{transform:translateY(-10vh) rotate(360deg);opacity:0}
+}
+
+/* CONFETTI */
+.confetti{
+  position:absolute;
+  width:12px;
+  height:12px;
+  top:-10px;
+  animation:fall 4s linear infinite;
+  border-radius:3px;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+
+/* SPARKLES */
+.sparkle{
+  position:absolute;
+  font-size:18px;
+  animation:sparkle 1s linear infinite;
+  opacity:0.8;
+}
+@keyframes sparkle{
+  0%{transform:scale(0) rotate(0deg);opacity:1}
+  50%{transform:scale(1.2) rotate(180deg);opacity:1}
+  100%{transform:scale(0) rotate(360deg);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <img src="photo.jpg" class="photo" id="pic">
+  <h1 id="title">Happy Birthday Trishika! 🎉</h1>
+  <div class="msg" id="text">Click below to start your surprise 🎁</div>
+  <button id="startBtn">🎁 Open Surprise</button>
+  <div class="signature" id="sign">— With love, Sivasingh ❤️</div>
+</div>
+
+<script>
+// 20 Messages
+const messages=[
+ "Tum meri zindagi ki sabse pyaari wajah ho ❤️",
+ "Har din tumhari smile meri duniya roshan karti hai ✨",
+ "Bhagwan tumhe hamesha khush rakhe 💖",
+ "I love you so much ❤️",
+ "Happy Birthday meri jaan! 🎂",
+ "Ye saal tumhare liye special ho ✨",
+ "Tum meri Queen ho 👑",
+ "Har pal tumhari khushi meri priority hai 💕",
+ "Tum meri zindagi ka best gift ho 🎁",
+ "Hamesha haste raho 😊",
+ "Tumhari har wish poori ho 🪄",
+ "Tumhari zindagi colourful rahe 🌈",
+ "Mere saath hamesha khush raho 💖",
+ "Tum amazing ho 😘",
+ "Dil se tumhe wish karta ho 💌",
+ "Ye din tumhare liye unforgettable ho 🥰",
+ "Har din tumhari smile dekhu main 😄",
+ "Tum meri duniya ka centre ho 🌟",
+ "Happy Birthday Trishika once again 🎉",
+ "Tum meri zindagi ki light ho ✨"
+];
+
+let i=0;
+const btn=document.getElementById('startBtn');
+const text=document.getElementById('text');
+const pic=document.getElementById('pic');
+const sign=document.getElementById('sign');
+const title=document.getElementById('title');
+const music=document.getElementById('music');
+
+btn.addEventListener('click',()=>{
+  btn.style.display='none';
+  music.play();
+  pic.style.display='block';
+  sign.style.display='block';
+  title.style.opacity=1;
+  title.style.transform='scale(1)';
+  startHearts();
+  startConfetti();
+  startSparkles();
+  showMessages(0);
+});
+
+// Messages one by one
+function showMessages(index){
+  if(index >= messages.length) return;
+  text.style.opacity=0;
+  setTimeout(()=>{
+    text.innerHTML=messages[index];
+    text.style.opacity=1;
+    setTimeout(()=>showMessages(index+1),2500);
+  },500);
+}
+
+// Hearts
+function startHearts(){
+  setInterval(()=>{
+    const h=document.createElement('div');
+    h.className='heart';
+    h.innerHTML='❤️';
+    h.style.left=Math.random()*100+'vw';
+    h.style.fontSize=(Math.random()*20+15)+'px';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+  },300);
+}
+
+// Confetti
+function startConfetti(){
+  setInterval(()=>{
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.backgroundColor=["#ff4d6d","#ffd166","#06d6a0","#118ab2"][Math.floor(Math.random()*4)];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  },150);
+}
+
+// Sparkles
+function startSparkles(){
+  setInterval(()=>{
+    const s=document.createElement('div');
+    s.className='sparkle';
+    s.innerHTML='✨';
+    s.style.left=Math.random()*100+'vw';
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  },200);
+}
+</script>
+
+</body>
+</html>
